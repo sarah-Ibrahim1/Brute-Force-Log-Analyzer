@@ -71,7 +71,6 @@ The dataset includes the following fields:
 | `event_id` | Windows authentication event ID |
 | `status` | Authentication result (Failed or Success) |
 
-The dataset is used to test the detection logic with multiple IP addresses and authentication events.
 
 
 
