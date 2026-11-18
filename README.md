@@ -4,28 +4,22 @@ A Python-based security log analysis tool that detects potential brute-force log
 
 ## Overview
 
-This project analyzes authentication logs stored in a CSV file to identify potential brute-force activity.
-
-The analyzer filters failed login events, groups them by source IP address, and examines timestamps using a sliding time window.
-
-An IP address is flagged as suspicious when it generates **6 or more failed login attempts within 60 seconds**.
+The analyzer reads a CSV file, identifies failed login events (Windows Event ID `4625`), and groups them by source IP address. An IP is flagged as suspicious if it generates **6 or more failed login attempts within 60 seconds**.
 
 ## Features
 
-- CSV-based security log analysis.
-- Detection of failed login attempts using Windows Event ID `4625`.
-- Grouping authentication events by source IP address.
-- Timestamp conversion and time-based analysis.
-- Sliding 60-second detection window.
-- Identification of suspicious IP addresses.
-- Clear detection results showing the number of attempts within the detection window.
+- Reads authentication logs from a CSV file.
+- Filters failed login events.
+- Groups attempts by source IP address.
+- Uses a sliding time window to detect suspicious activity.
+- Displays suspicious IP addresses and their attempt counts.
 
 ## Technologies Used
 
-- **Python 3**
-- CSV module
-- datetime module
-- collections module (`defaultdict`)
+- Python 3
+- CSV
+- datetime
+- collections (`defaultdict`)
 
 ## Project Structure
 
@@ -37,40 +31,22 @@ Brute-Force-Log-Analyzer/
 └── README.md
 ```
 
-## Detection Logic
-
-The analyzer follows these steps:
-
-1. Reads authentication records from the CSV file.
-2. Filters failed login events using Event ID `4625`.
-3. Groups failed login timestamps by source IP address.
-4. Sorts timestamps chronologically.
-5. Checks failed login attempts within consecutive 60-second windows.
-6. Flags IP addresses with 6 or more failed attempts within the detection window.
-
-### Detection Threshold
+## Detection Settings
 
 | Parameter | Value |
 |---|---|
-| Event ID | 4625 |
+| Event ID | `4625` |
 | Failed login threshold | 6 attempts |
 | Time window | 60 seconds |
-| Detection output | Suspicious IP address |
 
 ## Dataset
 
-The project uses a CSV dataset containing **3,921 authentication log records**.
-
-The dataset includes the following fields:
+The project uses a CSV dataset containing **3,921 authentication records** with the following fields:
 
 | Field | Description |
 |---|---|
-| `timestamp` | Date and time of the authentication event |
-| `source_ip` | IP address generating the event |
-| `username` | Account associated with the event |
+| `timestamp` | Date and time of the event |
+| `source_ip` | Source IP address |
+| `username` | Username used |
 | `event_id` | Windows authentication event ID |
 | `status` | Authentication result (Failed or Success) |
-
-
-
-
